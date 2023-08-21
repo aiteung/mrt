@@ -10,10 +10,10 @@ import (
 	"go.mau.fi/whatsmeow/types"
 )
 
-func Whatmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client) (im IteungMessage) {
+func Whatsmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client) (im IteungMessage) {
 	im.Phone_number = Info.Sender.User
 	im.Chat_server = Info.Chat.Server
-	im.Group_name = Info.Sender.User
+	im.Group_name = ""
 	im.Alias_name = Info.PushName
 	im.Messages = Message.GetConversation()
 	im.Is_group = "false"
