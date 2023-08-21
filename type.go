@@ -23,6 +23,7 @@ type IteungV1Message struct {
 
 type IteungMessage struct {
 	Phone_number string  `json:"phone_number"`
+	Chat_server  string  `json:"chat_server"`
 	Group_name   string  `json:"group_name"`
 	Group_id     string  `json:"group_id"`
 	Group        string  `json:"group"`

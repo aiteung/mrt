@@ -1,7 +1,6 @@
 package module
 
 import (
-	"database/sql"
 	"fmt"
 	"strings"
 
@@ -13,6 +12,7 @@ import (
 
 func Whatmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client) (im IteungMessage) {
 	im.Phone_number = Info.Sender.User
+	im.Chat_server = Info.Chat.Server
 	im.Group_name = Info.Sender.User
 	im.Alias_name = Info.PushName
 	im.Messages = Message.GetConversation()
@@ -39,9 +39,9 @@ func Whatmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient
 	return
 }
 
-func IsMultiKey(Info *types.MessageInfo, Message *waProto.Message, db *sql.DB) bool {
-	m := musik.NormalizeString(Message.GetConversation())
-	if (strings.Contains(m, "teung") && Info.Chat.Server == "g.us") || (Info.Chat.Server == "s.whatsapp.net") {
+func IsMultiKey(im IteungMessage) bool {
+	m := musik.NormalizeString(im.Messages)
+	if (strings.Contains(m, "teung") && im.Chat_server == "g.us") || (im.Chat_server == "s.whatsapp.net") {
 		complete, match := musik.IsMatch(m, "jadwal", "kuliah", "pertemuan", "jumlah", "ngajar")
 		fmt.Println(complete)
 		if match >= 2 && IsTerdaftar() {
