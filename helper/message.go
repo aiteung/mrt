@@ -26,8 +26,10 @@ func GetPhoneNumber(WAIface model.IteungWhatsMeowConfig) (phonenumber string) {
 func GetMessage(Message *waProto.Message) (message string) {
 	if Message.ExtendedTextMessage != nil {
 		message = *Message.ExtendedTextMessage.Text
-	} else if Message.DocumentMessage.Caption != nil {
-		message = *Message.DocumentMessage.Caption
+	} else if Message.DocumentMessage != nil {
+		if Message.DocumentMessage.Caption != nil {
+			message = *Message.DocumentMessage.Caption
+		}
 	} else {
 		message = Message.GetConversation()
 	}
