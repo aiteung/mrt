@@ -70,3 +70,17 @@ func TestModuleCall(t *testing.T) {
 		fmt.Println(reply)
 	}
 }
+
+func TestAPI(t *testing.T) {
+	var msg = model.GowaNotif{
+		User:     "6281312000300",
+		Server:   "s.whatsapp.net",
+		Messages: "alo",
+	}
+	var ApiWa string = os.Getenv("URLAPIWA")
+	resp := SendToGoWAAPI(msg, ApiWa)
+	fmt.Println(resp)
+	//atdb.InsertOneDoc(MongoConn, ModuleCollection, NewModule)
+	//atdb.InsertOneDoc(MongoConn, TypoCollection, NewTypo)
+
+}
