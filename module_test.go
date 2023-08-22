@@ -66,7 +66,8 @@ func TestModuleCall(t *testing.T) {
 		fmt.Println("Pesan tidak memanggil iteung")
 	}
 	if modulename != "" {
-		Caller(modulename, Pesan)
+		reply := Caller(modulename, Pesan)
+		fmt.Println(reply)
 	}
 
 }

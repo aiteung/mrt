@@ -1,11 +1,12 @@
 # Module Handling Iteung
 Iteung module routing
 
-Usage
+Usage :
+declare : WAIface model.IteungWhatsMeowConfig, DBIface model.IteungDBConfig
 ```go
-Modulename,Pesan:=IteungModuleCall(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client, MongoConn *mongo.Database, TypoCollection string, ModuleCollection string)
+Modulename,Pesan:=IteungModuleCall(WAIface, DBIface)
 if Modulename != ""{
-    Caller(Modulename,Pesan)
+    go CallAndSend(Modulename, Pesan, WAIface)
 }
 ```
 

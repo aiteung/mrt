@@ -4,6 +4,7 @@ go 1.21.0
 
 require (
 	github.com/aiteung/atdb v0.0.13
+	github.com/aiteung/atmessage v0.0.27
 	github.com/aiteung/musik v0.0.5
 	github.com/whatsauth/watoken v0.1.2
 	go.mau.fi/whatsmeow v0.0.0-20230817083005-1c185f033d88
@@ -19,6 +20,7 @@ require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
+	github.com/mattn/go-sqlite3 v1.14.17 // indirect
 	github.com/microsoft/go-mssqldb v1.0.0 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -29,9 +31,9 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	go.mau.fi/libsignal v0.1.0 // indirect
 	go.mau.fi/util v0.0.0-20230805154123-3981666a86f1 // indirect
-	golang.org/x/crypto v0.9.0 // indirect
+	golang.org/x/crypto v0.10.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
-	golang.org/x/text v0.9.0 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	golang.org/x/text v0.10.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 )
