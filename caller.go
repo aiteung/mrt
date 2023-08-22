@@ -4,7 +4,6 @@ import (
 	"github.com/aiteung/atmessage"
 	"github.com/aiteung/module/handler"
 	"github.com/aiteung/module/model"
-	"go.mau.fi/whatsmeow"
 )
 
 func Caller(Modulename string, Pesan model.IteungMessage) (reply string) {
@@ -15,8 +14,13 @@ func Caller(Modulename string, Pesan model.IteungMessage) (reply string) {
 	return
 }
 
-func CallAndSend(Modulename string, Pesan model.IteungMessage, WAIface model.IteungWhatsMeowConfig) (resp whatsmeow.SendResponse, err error) {
+func CallAndSend(Modulename string, Pesan model.IteungMessage, URLApiWa string) (resp atmessage.Response) {
 	reply := Caller(Modulename, Pesan)
-	resp, err = atmessage.SendMessage(reply, WAIface.Info.Chat, WAIface.Waclient)
+	var msg = model.GowaNotif{
+		User:     Pesan.Chat_number,
+		Server:   Pesan.Chat_server,
+		Messages: reply,
+	}
+	resp = SendToGoWAAPI(msg, URLApiWa)
 	return
 }
