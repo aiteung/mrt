@@ -7,14 +7,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type PhoneList struct {
-	Phones []string `json:"phones,omitempty"`
-}
-
-type Response struct {
-	Response string `json:"response"`
-}
-
 type IteungV1Message struct {
 	Phone_number string  `json:"phone_number"`
 	Group_name   string  `json:"group_name"`

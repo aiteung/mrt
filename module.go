@@ -6,6 +6,7 @@ import (
 
 	"github.com/aiteung/atapi"
 	"github.com/aiteung/atdb"
+	"github.com/aiteung/atmessage"
 	"github.com/aiteung/module/helper"
 	"github.com/aiteung/module/model"
 	"github.com/aiteung/musik"
@@ -63,10 +64,10 @@ func GetModuleName(im model.IteungMessage, MongoConn *mongo.Database, ModuleColl
 	return
 }
 
-func SendToIteungAPI(pesan model.IteungMessage, urltarget string) model.Response {
-	return atapi.PostStruct[model.Response](pesan, urltarget)
+func SendToIteungAPI(pesan model.IteungMessage, urltarget string) atmessage.Response {
+	return atapi.PostStruct[atmessage.Response](pesan, urltarget)
 }
 
-func SendToGoWAAPI(pesan model.GowaNotif, urltarget string) model.Response {
-	return atapi.PostStruct[model.Response](pesan, urltarget)
+func SendToGoWAAPI(pesan model.GowaNotif, urltarget string) atmessage.Response {
+	return atapi.PostStruct[atmessage.Response](pesan, urltarget)
 }
