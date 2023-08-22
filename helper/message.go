@@ -10,6 +10,7 @@ import (
 )
 
 func GetPhoneNumber(WAIface model.IteungWhatsMeowConfig) (phonenumber string) {
+	fmt.Println("masuk module get phone number", WAIface.Info.Sender.User)
 	if WAIface.Message.ExtendedTextMessage != nil {
 		if WAIface.Message.ExtendedTextMessage.ContextInfo != nil {
 			if WAIface.Message.ExtendedTextMessage.ContextInfo.Participant != nil {
