@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/aiteung/atmessage/mediadecrypt"
@@ -13,10 +14,12 @@ func GetPhoneNumber(WAIface model.IteungWhatsMeowConfig) (phonenumber string) {
 		if WAIface.Message.ExtendedTextMessage.ContextInfo != nil {
 			if WAIface.Message.ExtendedTextMessage.ContextInfo.Participant != nil {
 				phonenumber = strings.Split(*WAIface.Message.ExtendedTextMessage.ContextInfo.Participant, "@")[0]
+				fmt.Println("phonenumber dari context info participant : ", phonenumber)
 			}
 		}
 	} else {
 		phonenumber = WAIface.Info.Sender.User
+		fmt.Println("phonenumber dari info sender user : ", phonenumber)
 	}
 
 	return
