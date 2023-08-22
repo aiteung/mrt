@@ -69,5 +69,4 @@ func TestModuleCall(t *testing.T) {
 		reply := Caller(modulename, Pesan)
 		fmt.Println(reply)
 	}
-
 }
