@@ -12,7 +12,16 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func Whatsmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client, MongoConn *mongo.Database, TypoCollection string) (im IteungMessage) {
+func IteungModuleCall(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client, MongoConn *mongo.Database, TypoCollection string, ModuleCollection string) (Pesan IteungMessage, modulename string) {
+	Pesan = Whatsmeow2Struct(Info, Message, waclient)
+	NormalizeAndTypoCorrection(&Pesan.Message, MongoConn, TypoCollection)
+	if IsIteungCall(Pesan) {
+		modulename = GetModuleName(Pesan, MongoConn, ModuleCollection)
+	}
+	return
+}
+
+func Whatsmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client) (im IteungMessage) {
 	im.Phone_number = Info.Sender.User
 	im.Chat_server = Info.Chat.Server
 	im.Group_name = ""

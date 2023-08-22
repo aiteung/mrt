@@ -20,7 +20,7 @@ var Pesan = IteungMessage{
 	Chat_server:  "g.us",
 	Group_name:   "NN257S",
 	Group_id:     "",
-	Message:      "teung minta toket group",
+	Message:      "teung minta token group",
 	Group:        "",
 	Alias_name:   "Rolly Maulana Awangga",
 	Is_group:     "true",
@@ -45,10 +45,16 @@ func TestInsertCollection(t *testing.T) {
 
 }
 
-func TestModule(t *testing.T) {
+func TestModuleCall(t *testing.T) {
+	var modulename string
+	if modulename != "" {
+		fmt.Println(modulename)
+	} else {
+		fmt.Println("inisiasi module empty string defaultnya")
+	}
 	NormalizeAndTypoCorrection(&Pesan.Message, MongoConn, TypoCollection)
 	if IsIteungCall(Pesan) {
-		modulename := GetModuleName(Pesan, MongoConn, ModuleCollection)
+		modulename = GetModuleName(Pesan, MongoConn, ModuleCollection)
 		if modulename != "" {
 			fmt.Println(modulename)
 		} else {
@@ -57,6 +63,9 @@ func TestModule(t *testing.T) {
 
 	} else {
 		fmt.Println("Pesan tidak memanggil iteung")
+	}
+	if modulename != "" {
+		Caller(modulename)
 	}
 
 }
