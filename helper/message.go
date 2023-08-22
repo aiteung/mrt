@@ -12,7 +12,7 @@ import (
 func GetPhoneNumber(WAIface model.IteungWhatsMeowConfig) (phonenumber string) {
 	fmt.Println("masuk module get phone number", WAIface.Info.Sender.User)
 	if WAIface.Message.ExtendedTextMessage != nil {
-		fmt.Println("masuk module ExtendedTextMessage", WAIface.Info.Sender.User)
+		fmt.Println("Kalo pake whatsapp Desktop masuk module ExtendedTextMessage", WAIface.Info.Sender.User)
 		if WAIface.Message.ExtendedTextMessage.ContextInfo != nil {
 			fmt.Println("masuk module ExtendedTextMessage ContextInfo", WAIface.Info.Sender.User)
 			if WAIface.Message.ExtendedTextMessage.ContextInfo.Participant != nil {
