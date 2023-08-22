@@ -4,18 +4,21 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/aiteung/atdb"
 	"github.com/aiteung/musik"
 	"go.mau.fi/whatsmeow"
 	waProto "go.mau.fi/whatsmeow/binary/proto"
 	"go.mau.fi/whatsmeow/types"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func Whatsmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client) (im IteungMessage) {
+func Whatsmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client, MongoConn *mongo.Database, TypoCollection string) (im IteungMessage) {
 	im.Phone_number = Info.Sender.User
 	im.Chat_server = Info.Chat.Server
 	im.Group_name = ""
 	im.Alias_name = Info.PushName
-	im.Messages = Message.GetConversation()
+	m := Message.GetConversation()
+	im.Message = m
 	im.Is_group = "false"
 	im.Filename = ""
 	im.Filedata = ""
@@ -39,21 +42,21 @@ func Whatsmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclien
 	return
 }
 
-func IsMultiKey(im IteungMessage) bool {
-	m := musik.NormalizeString(im.Messages)
-	if (strings.Contains(m, "teung") && im.Chat_server == "g.us") || (im.Chat_server == "s.whatsapp.net") {
-		complete, match := musik.IsMatch(m, "jadwal", "kuliah", "pertemuan", "jumlah", "ngajar")
-		fmt.Println(complete)
-		if match >= 2 && IsTerdaftar() {
-			return true
-		} else {
-			return false
-		}
+func IsIteungCall(im IteungMessage) bool {
+	if (strings.Contains(im.Message, "teung") && im.Chat_server == "g.us") || (im.Chat_server == "s.whatsapp.net") {
+		return true
 	} else {
 		return false
 	}
 }
 
-func IsTerdaftar() bool {
-	return true
+func GetModuleName(im IteungMessage, MongoConn *mongo.Database, ModuleCollection string) (modulename string) {
+	modules := atdb.GetAllDoc[[]Module](MongoConn, ModuleCollection)
+	for _, mod := range modules {
+		complete, _ := musik.IsMatch(im.Message, mod.Keyword...)
+		if complete {
+			modulename = mod.Name
+		}
+	}
+	return
 }

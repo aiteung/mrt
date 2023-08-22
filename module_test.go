@@ -1,6 +1,7 @@
 package module
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -9,7 +10,7 @@ import (
 
 var MongoInfo = atdb.DBInfo{
 	DBString: os.Getenv("MONGOSTRING"),
-	DBName:   "hris",
+	DBName:   "iteung",
 }
 
 var MongoConn = atdb.MongoConnect(MongoInfo)
@@ -19,7 +20,7 @@ var Pesan = IteungMessage{
 	Chat_server:  "g.us",
 	Group_name:   "NN257S",
 	Group_id:     "",
-	Messages:     "cuk",
+	Message:      "minta token group",
 	Group:        "",
 	Alias_name:   "Rolly Maulana Awangga",
 	Is_group:     "true",
@@ -27,10 +28,26 @@ var Pesan = IteungMessage{
 
 var NewModule = Module{
 	Name:    "pomodoro",
-	Keyword: []string{"minta", "token", "grup"},
+	Keyword: []string{"pomodoro", "cek", "status"},
+}
+var ModuleCollection = "module"
+
+var NewTypo = Typo{
+	From: "grub",
+	To:   "grup",
 }
 
-func TestInsertModule(t *testing.T) {
+var TypoCollection = "typo"
 
-	atdb.InsertOneDoc(MongoConn, "module", NewModule)
+func TestInsertCollection(t *testing.T) {
+	//atdb.InsertOneDoc(MongoConn, ModuleCollection, NewModule)
+	//atdb.InsertOneDoc(MongoConn, TypoCollection, NewTypo)
+
+}
+
+func TestModule(t *testing.T) {
+	NormalizeAndTypoCorrection(&Pesan.Message, MongoConn, TypoCollection)
+	modulename := GetModuleName(Pesan, MongoConn, ModuleCollection)
+	fmt.Println(modulename)
+
 }

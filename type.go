@@ -28,7 +28,7 @@ type IteungMessage struct {
 	Group_id     string  `json:"group_id,omitempty" bson:"group_id,omitempty"`
 	Group        string  `json:"group,omitempty" bson:"group,omitempty"`
 	Alias_name   string  `json:"alias_name,omitempty" bson:"alias_name,omitempty"`
-	Messages     string  `json:"messages,omitempty" bson:"messages,omitempty"`
+	Message      string  `json:"messages,omitempty" bson:"messages,omitempty"`
 	Is_group     string  `json:"is_group,omitempty" bson:"is_group,omitempty"`
 	Filename     string  `json:"filename,omitempty" bson:"filename,omitempty"`
 	Filedata     string  `json:"filedata,omitempty" bson:"filedata,omitempty"`
@@ -39,4 +39,9 @@ type IteungMessage struct {
 type Module struct {
 	Name    string   `json:"name,omitempty" bson:"name,omitempty"`
 	Keyword []string `json:"keyword,omitempty" bson:"keyword,omitempty"`
+}
+
+type Typo struct {
+	From string `json:"from,omitempty" bson:"from,omitempty"`
+	To   string `json:"to,omitempty" bson:"to,omitempty"`
 }
