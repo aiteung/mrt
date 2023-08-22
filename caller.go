@@ -16,5 +16,5 @@ func Caller(Modulename string, Pesan model.IteungMessage) (reply string) {
 
 func CallAndSend(Modulename string, Pesan model.IteungMessage, WAIface model.IteungWhatsMeowConfig) {
 	reply := Caller(Modulename, Pesan)
-	atmessage.SendMessage(reply, WAIface.Info.Sender, WAIface.Waclient)
+	atmessage.SendMessage(reply, WAIface.Info.Chat, WAIface.Waclient)
 }
