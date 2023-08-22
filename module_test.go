@@ -24,7 +24,7 @@ var Pesan = model.IteungMessage{
 	Message:      "teung minta token group",
 	Group:        "",
 	Alias_name:   "Rolly Maulana Awangga",
-	Is_group:     "true",
+	Is_group:     true,
 }
 
 var NewModule = model.Module{

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/aiteung/atdb"
+	"github.com/aiteung/module/helper"
 	"github.com/aiteung/module/model"
 	"github.com/aiteung/musik"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -20,17 +21,13 @@ func IteungModuleCall(WAIface model.IteungWhatsMeowConfig, DBIface model.IteungD
 }
 
 func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessage) {
-	im.Phone_number = WAIface.Info.Sender.User
+	im.Phone_number = helper.GetPhoneNumber(WAIface)
+	im.Chat_number = WAIface.Info.Chat.User
 	im.Chat_server = WAIface.Info.Chat.Server
-	im.Group_name = ""
 	im.Alias_name = WAIface.Info.PushName
-	m := WAIface.Message.GetConversation()
-	im.Message = m
-	im.Is_group = "false"
-	im.Filename = ""
-	im.Filedata = ""
-	im.Latitude = 0.0
-	im.Longitude = 0.0
+	im.Message = helper.GetMessage(WAIface.Message)
+	im.Filename, im.Filedata = helper.GetFile(WAIface.Message)
+	im.Longitude, im.Latitude = helper.GetLongLat(WAIface.Message)
 	if WAIface.Info.Chat.Server == "g.us" {
 		groupInfo, err := WAIface.Waclient.GetGroupInfo(WAIface.Info.Chat)
 		fmt.Println("cek err : ", err)
@@ -39,9 +36,9 @@ func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessa
 			im.Group_name = groupInfo.GroupName.Name
 			im.Group_id = WAIface.Info.Chat.User
 		} else {
-			fmt.Println("groupInfo : ", groupInfo)
+			fmt.Println("groupInfo : ", groupInfo.Participants)
 		}
-		im.Is_group = "true"
+		im.Is_group = true
 	}
 	return
 }
