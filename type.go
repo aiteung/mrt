@@ -1,5 +1,12 @@
 package module
 
+import (
+	"go.mau.fi/whatsmeow"
+	waProto "go.mau.fi/whatsmeow/binary/proto"
+	"go.mau.fi/whatsmeow/types"
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
 type PhoneList struct {
 	Phones []string `json:"phones,omitempty"`
 }
@@ -44,4 +51,16 @@ type Module struct {
 type Typo struct {
 	From string `json:"from,omitempty" bson:"from,omitempty"`
 	To   string `json:"to,omitempty" bson:"to,omitempty"`
+}
+
+type IteungWhatsMeowConfig struct {
+	Info     *types.MessageInfo
+	Message  *waProto.Message
+	Waclient *whatsmeow.Client
+}
+
+type IteungDBConfig struct {
+	MongoConn        *mongo.Database
+	TypoCollection   string
+	ModuleCollection string
 }

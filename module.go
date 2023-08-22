@@ -6,47 +6,41 @@ import (
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/musik"
-	"go.mau.fi/whatsmeow"
-	waProto "go.mau.fi/whatsmeow/binary/proto"
-	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func IteungModuleCall(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client, MongoConn *mongo.Database, TypoCollection string, ModuleCollection string) (Pesan IteungMessage, modulename string) {
-	Pesan = Whatsmeow2Struct(Info, Message, waclient)
-	NormalizeAndTypoCorrection(&Pesan.Message, MongoConn, TypoCollection)
+func IteungModuleCall(WAIface IteungWhatsMeowConfig, DBIface IteungDBConfig) (Modulename string, Pesan IteungMessage) {
+	Pesan = Whatsmeow2Struct(WAIface)
+	NormalizeAndTypoCorrection(&Pesan.Message, DBIface.MongoConn, DBIface.TypoCollection)
 	if IsIteungCall(Pesan) {
-		modulename = GetModuleName(Pesan, MongoConn, ModuleCollection)
+		Modulename = GetModuleName(Pesan, DBIface.MongoConn, DBIface.ModuleCollection)
 	}
 	return
 }
 
-func Whatsmeow2Struct(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client) (im IteungMessage) {
-	im.Phone_number = Info.Sender.User
-	im.Chat_server = Info.Chat.Server
+func Whatsmeow2Struct(WAIface IteungWhatsMeowConfig) (im IteungMessage) {
+	im.Phone_number = WAIface.Info.Sender.User
+	im.Chat_server = WAIface.Info.Chat.Server
 	im.Group_name = ""
-	im.Alias_name = Info.PushName
-	m := Message.GetConversation()
+	im.Alias_name = WAIface.Info.PushName
+	m := WAIface.Message.GetConversation()
 	im.Message = m
 	im.Is_group = "false"
 	im.Filename = ""
 	im.Filedata = ""
 	im.Latitude = 0.0
 	im.Longitude = 0.0
-	if Info.Chat.Server == "g.us" {
-		groupInfo, err := waclient.GetGroupInfo(Info.Chat)
+	if WAIface.Info.Chat.Server == "g.us" {
+		groupInfo, err := WAIface.Waclient.GetGroupInfo(WAIface.Info.Chat)
 		fmt.Println("cek err : ", err)
 		if groupInfo != nil {
-			im.Group = groupInfo.GroupName.Name + "@" + Info.Chat.User
+			im.Group = groupInfo.GroupName.Name + "@" + WAIface.Info.Chat.User
 			im.Group_name = groupInfo.GroupName.Name
-			im.Group_id = Info.Chat.User
+			im.Group_id = WAIface.Info.Chat.User
 		} else {
 			fmt.Println("groupInfo : ", groupInfo)
 		}
 		im.Is_group = "true"
-		if strings.Contains(Message.GetConversation(), "teung") || strings.Contains(Message.GetConversation(), "Teung") {
-			go waclient.SendChatPresence(Info.Chat, "composing", "")
-		}
 	}
 	return
 }

@@ -1,5 +1,13 @@
-# mrt
-module routing
+# Module Handling Iteung
+Iteung module routing
+
+Usage
+```go
+Modulename,Pesan:=IteungModuleCall(Info *types.MessageInfo, Message *waProto.Message, waclient *whatsmeow.Client, MongoConn *mongo.Database, TypoCollection string, ModuleCollection string)
+if Modulename != ""{
+    Caller(Modulename,Pesan)
+}
+```
 
 ## Dev
 ```sh
