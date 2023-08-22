@@ -1,4 +1,4 @@
-package module
+package model
 
 import (
 	"go.mau.fi/whatsmeow"

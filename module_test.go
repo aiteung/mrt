@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/aiteung/atdb"
+	"github.com/aiteung/module/model"
 )
 
 var MongoInfo = atdb.DBInfo{
@@ -15,24 +16,24 @@ var MongoInfo = atdb.DBInfo{
 
 var MongoConn = atdb.MongoConnect(MongoInfo)
 
-var Pesan = IteungMessage{
+var Pesan = model.IteungMessage{
 	Phone_number: "6281312000300",
 	Chat_server:  "g.us",
 	Group_name:   "NN257S",
-	Group_id:     "",
+	Group_id:     "1234566954",
 	Message:      "teung minta token group",
 	Group:        "",
 	Alias_name:   "Rolly Maulana Awangga",
 	Is_group:     "true",
 }
 
-var NewModule = Module{
+var NewModule = model.Module{
 	Name:    "pomodoro",
 	Keyword: []string{"pomodoro", "cek", "status"},
 }
 var ModuleCollection = "module"
 
-var NewTypo = Typo{
+var NewTypo = model.Typo{
 	From: "grub",
 	To:   "grup",
 }
@@ -65,7 +66,7 @@ func TestModuleCall(t *testing.T) {
 		fmt.Println("Pesan tidak memanggil iteung")
 	}
 	if modulename != "" {
-		Caller(modulename)
+		Caller(modulename, Pesan)
 	}
 
 }

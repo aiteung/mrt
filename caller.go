@@ -1,11 +1,14 @@
 package module
 
-import "fmt"
+import (
+	"github.com/aiteung/module/handler"
+	"github.com/aiteung/module/model"
+)
 
-func Caller(modulename string) {
-	switch modulename {
+func Caller(Modulename string, Pesan model.IteungMessage) {
+	switch Modulename {
 	case "tokengrup":
-		fmt.Println("masuk module token group")
+		handler.TokenGroup(Pesan)
 	}
 
 }

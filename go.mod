@@ -5,11 +5,13 @@ go 1.21.0
 require (
 	github.com/aiteung/atdb v0.0.13
 	github.com/aiteung/musik v0.0.5
+	github.com/whatsauth/watoken v0.1.2
 	go.mau.fi/whatsmeow v0.0.0-20230817083005-1c185f033d88
 	go.mongodb.org/mongo-driver v1.11.6
 )
 
 require (
+	aidanwoods.dev/go-paseto v1.2.0 // indirect
 	filippo.io/edwards25519 v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
@@ -20,6 +22,7 @@ require (
 	github.com/microsoft/go-mssqldb v1.0.0 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
@@ -28,6 +31,7 @@ require (
 	go.mau.fi/util v0.0.0-20230805154123-3981666a86f1 // indirect
 	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 )

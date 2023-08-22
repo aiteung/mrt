@@ -9,6 +9,11 @@ if Modulename != ""{
 }
 ```
 
+List of Mongo Collection :
+
+1. Typo : to replace typo word
+2. Module : return module name from keyword 
+
 ## Dev
 ```sh
 go get -u all

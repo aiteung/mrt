@@ -5,11 +5,12 @@ import (
 	"strings"
 
 	"github.com/aiteung/atdb"
+	"github.com/aiteung/module/model"
 	"github.com/aiteung/musik"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func IteungModuleCall(WAIface IteungWhatsMeowConfig, DBIface IteungDBConfig) (Modulename string, Pesan IteungMessage) {
+func IteungModuleCall(WAIface model.IteungWhatsMeowConfig, DBIface model.IteungDBConfig) (Modulename string, Pesan model.IteungMessage) {
 	Pesan = Whatsmeow2Struct(WAIface)
 	NormalizeAndTypoCorrection(&Pesan.Message, DBIface.MongoConn, DBIface.TypoCollection)
 	if IsIteungCall(Pesan) {
@@ -18,7 +19,7 @@ func IteungModuleCall(WAIface IteungWhatsMeowConfig, DBIface IteungDBConfig) (Mo
 	return
 }
 
-func Whatsmeow2Struct(WAIface IteungWhatsMeowConfig) (im IteungMessage) {
+func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessage) {
 	im.Phone_number = WAIface.Info.Sender.User
 	im.Chat_server = WAIface.Info.Chat.Server
 	im.Group_name = ""
@@ -45,7 +46,7 @@ func Whatsmeow2Struct(WAIface IteungWhatsMeowConfig) (im IteungMessage) {
 	return
 }
 
-func IsIteungCall(im IteungMessage) bool {
+func IsIteungCall(im model.IteungMessage) bool {
 	if (strings.Contains(im.Message, "teung") && im.Chat_server == "g.us") || (im.Chat_server == "s.whatsapp.net") {
 		return true
 	} else {
@@ -53,8 +54,8 @@ func IsIteungCall(im IteungMessage) bool {
 	}
 }
 
-func GetModuleName(im IteungMessage, MongoConn *mongo.Database, ModuleCollection string) (modulename string) {
-	modules := atdb.GetAllDoc[[]Module](MongoConn, ModuleCollection)
+func GetModuleName(im model.IteungMessage, MongoConn *mongo.Database, ModuleCollection string) (modulename string) {
+	modules := atdb.GetAllDoc[[]model.Module](MongoConn, ModuleCollection)
 	for _, mod := range modules {
 		complete, _ := musik.IsMatch(im.Message, mod.Keyword...)
 		if complete {
