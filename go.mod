@@ -1,6 +1,6 @@
 module github.com/aiteung/module
 
-go 1.21.0
+go 1.21
 
 require (
 	github.com/aiteung/atdb v0.0.13
