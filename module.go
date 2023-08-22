@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/aiteung/atapi"
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/module/helper"
 	"github.com/aiteung/module/model"
@@ -60,4 +61,8 @@ func GetModuleName(im model.IteungMessage, MongoConn *mongo.Database, ModuleColl
 		}
 	}
 	return
+}
+
+func SendToAPI(pesan model.IteungMessage, urltarget string) model.Response {
+	return atapi.PostStruct[model.Response](pesan, urltarget)
 }
