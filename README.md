@@ -6,7 +6,12 @@ declare : WAIface model.IteungWhatsMeowConfig, DBIface model.IteungDBConfig
 ```go
 Modulename,Pesan:=IteungModuleCall(WAIface, DBIface)
 if Modulename != ""{
-    go CallAndSend(Modulename, Pesan, WAIface)
+    resp, err := CallAndSend(Modulename, Pesan, WAIface)
+    if err != nil {
+				fmt.Println("Gagal Kirim Whatsapp Dari ITEUNG V2 Baru")
+				fmt.Println(err)
+			}
+			fmt.Println(resp)
 }
 ```
 

@@ -66,3 +66,9 @@ type IteungDBConfig struct {
 	TypoCollection   string
 	ModuleCollection string
 }
+
+type GowaNotif struct {
+	User     string `json:"user,omitempty" bson:"user,omitempty"`
+	Server   string `json:"server,omitempty" bson:"server,omitempty"`
+	Messages string `json:"messages,omitempty" bson:"messages,omitempty"`
+}
