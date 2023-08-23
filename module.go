@@ -41,8 +41,6 @@ func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessa
 			im.Group = groupInfo.GroupName.Name + "@" + WAIface.Info.Chat.User
 			im.Group_name = groupInfo.GroupName.Name
 			im.Group_id = WAIface.Info.Chat.User
-		} else {
-			fmt.Println("groupInfo : ", groupInfo.Participants)
 		}
 		im.Is_group = true
 	}
