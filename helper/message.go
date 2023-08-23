@@ -92,3 +92,7 @@ func GetStatusFromLink(WAIface model.IteungWhatsMeowConfig) (whmsg bool) {
 	}
 	return
 }
+
+func GetFromLinkDelay(Message *waProto.Message) uint32 {
+	return *Message.ExtendedTextMessage.ContextInfo.EntryPointConversionDelaySeconds
+}

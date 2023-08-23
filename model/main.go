@@ -31,6 +31,7 @@ type IteungMessage struct {
 	Alias_name         string  `json:"alias_name,omitempty" bson:"alias_name,omitempty"`
 	Message            string  `json:"messages,omitempty" bson:"messages,omitempty"`
 	From_link          bool    `json:"from_link,omitempty" bson:"from_link,omitempty"`
+	From_link_delay    uint32  `json:"from_link_delay,omitempty" bson:"from_link_delay,omitempty"`
 	Is_group           bool    `json:"is_group,omitempty" bson:"is_group,omitempty"`
 	Filename           string  `json:"filename,omitempty" bson:"filename,omitempty"`
 	Filedata           string  `json:"filedata,omitempty" bson:"filedata,omitempty"`
