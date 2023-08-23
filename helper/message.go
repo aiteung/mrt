@@ -81,3 +81,14 @@ func GetFile(Message *waProto.Message) (filename, filedata string) {
 	return
 
 }
+
+func GetStatusFromLink(WAIface model.IteungWhatsMeowConfig) (whmsg bool) {
+	if WAIface.Message.ExtendedTextMessage != nil && WAIface.Info.Chat.Server == "s.whatsapp.net" {
+		if WAIface.Message.ExtendedTextMessage.ContextInfo != nil {
+			if *WAIface.Message.ExtendedTextMessage.ContextInfo.EntryPointConversionSource == "click_to_chat_link" {
+				whmsg = true
+			}
+		}
+	}
+	return
+}

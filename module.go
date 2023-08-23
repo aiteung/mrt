@@ -28,6 +28,7 @@ func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessa
 	im.Chat_server = WAIface.Info.Chat.Server
 	im.Alias_name = WAIface.Info.PushName
 	im.Message = helper.GetMessage(WAIface.Message)
+	im.From_link = helper.GetStatusFromLink(WAIface)
 	im.Filename, im.Filedata = helper.GetFile(WAIface.Message)
 	im.Longitude, im.Latitude = helper.GetLongLat(WAIface.Message)
 	if WAIface.Info.Chat.Server == "g.us" {
