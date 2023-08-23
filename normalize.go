@@ -1,7 +1,7 @@
 package module
 
 import (
-	"strings"
+	"regexp"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/module/model"
@@ -10,9 +10,9 @@ import (
 
 func NormalizeAndTypoCorrection(message *string, MongoConn *mongo.Database, TypoCollection string) {
 	typos := atdb.GetAllDoc[[]model.Typo](MongoConn, TypoCollection)
-	//*message = musik.NormalizeString(*message)
 	for _, typo := range typos {
-		*message = strings.ReplaceAll(*message, typo.From, typo.To)
+		re := regexp.MustCompile(`(?i)` + typo.From + ``)
+		*message = re.ReplaceAllString(*message, typo.To)
 	}
 
 }
