@@ -24,13 +24,19 @@ func GetPhoneNumber(WAIface model.IteungWhatsMeowConfig) (phonenumber string) {
 }
 
 func GetMessage(Message *waProto.Message) (message string) {
-	if Message.ExtendedTextMessage != nil {
+	switch {
+	case Message.ExtendedTextMessage != nil:
 		message = *Message.ExtendedTextMessage.Text
-	} else if Message.DocumentMessage != nil {
+	case Message.DocumentMessage != nil:
 		if Message.DocumentMessage.Caption != nil {
 			message = *Message.DocumentMessage.Caption
 		}
-	} else {
+	case Message.LiveLocationMessage != nil:
+		data := Message.GetLiveLocationMessage()
+		if msg := data.GetCaption(); msg != "" {
+			message = msg
+		}
+	default:
 		message = Message.GetConversation()
 	}
 	return
