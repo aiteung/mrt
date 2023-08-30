@@ -58,7 +58,7 @@ func IsIteungCall(im model.IteungMessage) bool {
 func GetModuleName(im model.IteungMessage, MongoConn *mongo.Database, ModuleCollection string) (modulename string) {
 	modules := atdb.GetAllDoc[[]model.Module](MongoConn, ModuleCollection)
 	for _, mod := range modules {
-		complete, _ := musik.IsMatch(im.Message, mod.Keyword...)
+		complete, _ := musik.IsMatch(strings.ToLower(im.Message), mod.Keyword...)
 		if complete {
 			modulename = mod.Name
 		}

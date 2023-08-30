@@ -32,10 +32,7 @@ func GetMessage(Message *waProto.Message) (message string) {
 			message = *Message.DocumentMessage.Caption
 		}
 	case Message.LiveLocationMessage != nil:
-		data := Message.GetLiveLocationMessage()
-		if msg := data.GetCaption(); msg != "" {
-			message = msg
-		}
+		message = Message.LiveLocationMessage.GetCaption()
 	default:
 		message = Message.GetConversation()
 	}
