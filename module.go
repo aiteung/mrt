@@ -73,3 +73,7 @@ func SendToIteungAPI(pesan model.IteungMessage, urltarget string) atmessage.Resp
 func SendToGoWAAPI(pesan model.GowaNotif, urltarget string) atmessage.Response {
 	return atapi.PostStruct[atmessage.Response](pesan, urltarget)
 }
+
+func DocumentSendToGoWAAPI(pesan model.IteungMessage, urltarget string) atmessage.Response {
+	return atapi.PostStruct[atmessage.Response](pesan, urltarget)
+}
