@@ -31,6 +31,10 @@ func GetMessage(Message *waProto.Message) (message string) {
 		if Message.DocumentMessage.Caption != nil {
 			message = *Message.DocumentMessage.Caption
 		}
+	case Message.ImageMessage != nil:
+		if Message.ImageMessage.Caption != nil {
+			message = *Message.ImageMessage.Caption
+		}
 	case Message.LiveLocationMessage != nil:
 		message = Message.LiveLocationMessage.GetCaption()
 	default:
@@ -80,6 +84,9 @@ func GetFile(Message *waProto.Message) (filename, filedata string) {
 			filename = *Message.DocumentMessage.FileName
 		}
 		filedata = mediadecrypt.GetBase64Filedata(Message.DocumentMessage.Url, Message.DocumentMessage.MediaKey)
+	} else if Message.ImageMessage != nil {
+		filename = strings.ReplaceAll(*Message.ImageMessage.Mimetype, "/", ".")
+		filedata = mediadecrypt.GetBase64Filedata(Message.ImageMessage.Url, Message.ImageMessage.MediaKey)
 	}
 	return
 
