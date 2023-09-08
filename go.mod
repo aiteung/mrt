@@ -3,7 +3,7 @@ module github.com/aiteung/module
 go 1.21
 
 require (
-	github.com/aiteung/atapi v0.0.13
+	github.com/aiteung/atapi v0.0.16
 	github.com/aiteung/atdb v0.0.13
 	github.com/aiteung/atmessage v0.0.27
 	github.com/aiteung/musik v0.0.5

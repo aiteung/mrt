@@ -78,12 +78,12 @@ func TestAPI(t *testing.T) {
 		Messages: "alo",
 	}
 	var ApiWa string = os.Getenv("URLAPIWA")
-	resp := SendToGoWAAPI(msg, ApiWa)
-	fmt.Println(resp)
+	resp, err := SendToGoWAAPI(msg, ApiWa)
+	fmt.Println(resp, err)
 }
 
 func TestAPIBEV2(t *testing.T) {
 	var urlv2iteung string = os.Getenv("URLITEUNGBEV2")
-	resp := SendToIteungAPI(Pesan, urlv2iteung)
-	fmt.Println(resp)
+	resp, err := SendToIteungAPI(Pesan, urlv2iteung)
+	fmt.Println(resp, err)
 }

@@ -66,14 +66,17 @@ func GetModuleName(im model.IteungMessage, MongoConn *mongo.Database, ModuleColl
 	return
 }
 
-func SendToIteungAPI(pesan model.IteungMessage, urltarget string) atmessage.Response {
-	return atapi.PostStruct[atmessage.Response](pesan, urltarget)
+func SendToIteungAPI(pesan model.IteungMessage, urltarget string) (response atmessage.Response, errormessage string) {
+	response, errormessage = atapi.PostStruct[atmessage.Response](pesan, urltarget)
+	return
 }
 
-func SendToGoWAAPI(pesan model.GowaNotif, urltarget string) atmessage.Response {
-	return atapi.PostStruct[atmessage.Response](pesan, urltarget)
+func SendToGoWAAPI(pesan model.GowaNotif, urltarget string) (response atmessage.Response, errormessage string) {
+	response, errormessage = atapi.PostStruct[atmessage.Response](pesan, urltarget)
+	return
 }
 
-func DocumentSendToGoWAAPI(pesan model.IteungMessage, urltarget string) atmessage.Response {
-	return atapi.PostStruct[atmessage.Response](pesan, urltarget)
+func DocumentSendToGoWAAPI(pesan model.IteungMessage, urltarget string) (response atmessage.Response, errormessage string) {
+	response, errormessage = atapi.PostStruct[atmessage.Response](pesan, urltarget)
+	return
 }

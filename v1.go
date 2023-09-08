@@ -25,7 +25,8 @@ func IteungV1(IteungIPAddress string, apikey string, Pesan model.IteungMessage) 
 	SendToIteungV1API(IteungIPAddress, im)
 }
 
-func SendToIteungV1API(IteungIPAddress string, pesan atmessage.IteungMessage) atmessage.IteungRespon {
+func SendToIteungV1API(IteungIPAddress string, pesan atmessage.IteungMessage) (response atmessage.IteungRespon, errormessage string) {
 	urltarget := "http://" + IteungIPAddress + "/iteung/chatbot"
-	return atapi.PostStruct[atmessage.IteungRespon](pesan, urltarget)
+	response, errormessage = atapi.PostStruct[atmessage.IteungRespon](pesan, urltarget)
+	return
 }

@@ -14,13 +14,13 @@ func Caller(Modulename string, Pesan model.IteungMessage) (reply string) {
 	return
 }
 
-func CallAndSend(Modulename string, Pesan model.IteungMessage, URLApiWa string) (resp atmessage.Response) {
+func CallAndSend(Modulename string, Pesan model.IteungMessage, URLApiWa string) (resp atmessage.Response, errormessage string) {
 	reply := Caller(Modulename, Pesan)
 	var msg = model.GowaNotif{
 		User:     Pesan.Chat_number,
 		Server:   Pesan.Chat_server,
 		Messages: reply,
 	}
-	resp = SendToGoWAAPI(msg, URLApiWa)
+	resp, errormessage = SendToGoWAAPI(msg, URLApiWa)
 	return
 }
