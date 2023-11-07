@@ -36,7 +36,9 @@ func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessa
 	im.Longitude, im.Latitude = helper.GetLongLat(WAIface.Message)
 	if WAIface.Info.Chat.Server == "g.us" {
 		groupInfo, err := WAIface.Waclient.GetGroupInfo(WAIface.Info.Chat)
-		fmt.Println("cek err : ", err)
+		if err != nil {
+			fmt.Println("cek err : ", err)
+		}
 		if groupInfo != nil {
 			im.Group = groupInfo.GroupName.Name + "@" + WAIface.Info.Chat.User
 			im.Group_name = groupInfo.GroupName.Name
