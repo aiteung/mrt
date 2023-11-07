@@ -44,13 +44,14 @@ func GetMessage(Message *waProto.Message) (message string) {
 
 }
 
-func GetLongLat(Message *waProto.Message) (long, lat float64) {
+func GetLongLat(Message *waProto.Message) (long, lat float64, liveloc bool) {
 	if Message.ExtendedTextMessage != nil {
 		if Message.ExtendedTextMessage.ContextInfo != nil {
 			if Message.ExtendedTextMessage.ContextInfo.Participant != nil {
 				if Message.ExtendedTextMessage.ContextInfo.QuotedMessage.LiveLocationMessage != nil {
 					lat = *Message.ExtendedTextMessage.ContextInfo.QuotedMessage.LiveLocationMessage.DegreesLatitude
 					long = *Message.ExtendedTextMessage.ContextInfo.QuotedMessage.LiveLocationMessage.DegreesLongitude
+					liveloc = true
 				}
 			}
 
@@ -58,6 +59,7 @@ func GetLongLat(Message *waProto.Message) (long, lat float64) {
 	} else if Message.LiveLocationMessage != nil {
 		long = *Message.LiveLocationMessage.DegreesLongitude
 		lat = *Message.LiveLocationMessage.DegreesLatitude
+		liveloc = true
 	}
 	return
 }
