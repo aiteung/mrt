@@ -14,6 +14,9 @@ if Modulename != ""{
 			fmt.Println(resp)
 }
 ```
+Status Message  
+![image](https://github.com/aiteung/module/assets/11188109/fc5e3fbf-a32d-4bd8-8b91-e6dd90dcba98)
+
 
 List of Mongo Collection :
 
