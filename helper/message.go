@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"encoding/base64"
+	"go.mau.fi/whatsmeow"
 	"strings"
 
 	"github.com/aiteung/atmessage/mediadecrypt"
@@ -64,7 +66,7 @@ func GetLongLat(Message *waProto.Message) (long, lat float64, liveloc bool) {
 	return
 }
 
-func GetFile(Message *waProto.Message) (filename, filedata string) {
+func GetFile(client *whatsmeow.Client, Message *waProto.Message) (filename, filedata string) {
 	if extMsg := Message.GetExtendedTextMessage(); extMsg != nil {
 		if extMsg.ContextInfo == nil {
 			return
@@ -74,11 +76,19 @@ func GetFile(Message *waProto.Message) (filename, filedata string) {
 		}
 		if extMsg.ContextInfo.QuotedMessage.DocumentMessage != nil {
 			filename = *extMsg.ContextInfo.QuotedMessage.DocumentMessage.DirectPath
-			filedata = mediadecrypt.GetBase64Filedata(extMsg.ContextInfo.QuotedMessage.DocumentMessage.Url, extMsg.ContextInfo.QuotedMessage.DocumentMessage.GetMediaKey())
+			payload, err := client.Download(extMsg.ContextInfo.QuotedMessage.DocumentMessage)
+			if err != nil {
+				return
+			}
+			filedata = base64.StdEncoding.EncodeToString(payload)
 		}
 		if extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage != nil {
 			filename = *extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.DirectPath
-			filedata = mediadecrypt.GetBase64Filedata(extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.Url, Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.GetMediaKey())
+			payload, err := client.Download(extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage)
+			if err != nil {
+				return
+			}
+			filedata = base64.StdEncoding.EncodeToString(payload)
 		}
 	} else if doc := Message.GetDocumentMessage(); doc != nil {
 		switch {
@@ -87,11 +97,19 @@ func GetFile(Message *waProto.Message) (filename, filedata string) {
 		case doc.FileName != nil:
 			filename = *doc.FileName
 		}
-		filedata = mediadecrypt.GetBase64Filedata(doc.Url, doc.GetMediaKey())
+		payload, err := client.Download(doc)
+		if err != nil {
+			return
+		}
+		filedata = base64.StdEncoding.EncodeToString(payload)
 	} else if img := Message.GetImageMessage(); img != nil {
 		filename = strings.ReplaceAll(*img.Mimetype, "/", ".")
 		filedata = mediadecrypt.GetBase64Filedata(img.Url, img.GetMediaKey())
-
+		payload, err := client.Download(img)
+		if err != nil {
+			return
+		}
+		filedata = base64.StdEncoding.EncodeToString(payload)
 	} else if docCap := Message.GetDocumentWithCaptionMessage(); docCap != nil {
 		if docCap.GetMessage() == nil {
 			return
@@ -102,7 +120,12 @@ func GetFile(Message *waProto.Message) (filename, filedata string) {
 		case docCap.GetMessage().GetDocumentMessage().FileName != nil:
 			filename = docCap.GetMessage().GetDocumentMessage().GetFileName()
 		}
-		filedata = mediadecrypt.GetBase64Filedata(docCap.Message.DocumentMessage.Url, docCap.Message.DocumentMessage.GetMediaKey())
+		payload, err := client.Download(docCap.Message.DocumentMessage)
+		if err != nil {
+			return
+		}
+
+		filedata = base64.StdEncoding.EncodeToString(payload)
 	}
 	return
 
