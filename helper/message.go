@@ -65,30 +65,44 @@ func GetLongLat(Message *waProto.Message) (long, lat float64, liveloc bool) {
 }
 
 func GetFile(Message *waProto.Message) (filename, filedata string) {
-	if Message.ExtendedTextMessage != nil {
-		if Message.ExtendedTextMessage.ContextInfo != nil {
-			if Message.ExtendedTextMessage.ContextInfo.Participant != nil {
-				if Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentMessage != nil {
-					filename = *Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentMessage.DirectPath
-					filedata = mediadecrypt.GetBase64Filedata(Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentMessage.Url, Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentMessage.MediaKey)
-				}
-				if Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentWithCaptionMessage != nil {
-					filename = *Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.DirectPath
-					filedata = mediadecrypt.GetBase64Filedata(Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.Url, Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.MediaKey)
-				}
-			}
+	if extMsg := Message.GetExtendedTextMessage(); extMsg != nil {
+		if extMsg.ContextInfo == nil {
+			return
 		}
-	} else if Message.DocumentMessage != nil {
+		if extMsg.ContextInfo.Participant == nil {
+			return
+		}
+		if extMsg.ContextInfo.QuotedMessage.DocumentMessage != nil {
+			filename = *extMsg.ContextInfo.QuotedMessage.DocumentMessage.DirectPath
+			filedata = mediadecrypt.GetBase64Filedata(extMsg.ContextInfo.QuotedMessage.DocumentMessage.Url, extMsg.ContextInfo.QuotedMessage.DocumentMessage.GetMediaKey())
+		}
+		if extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage != nil {
+			filename = *extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.DirectPath
+			filedata = mediadecrypt.GetBase64Filedata(extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.Url, Message.ExtendedTextMessage.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.GetMediaKey())
+		}
+	} else if doc := Message.GetDocumentMessage(); doc != nil {
 		switch {
-		case Message.DocumentMessage.Title != nil:
-			filename = *Message.DocumentMessage.Title
-		case Message.DocumentMessage.FileName != nil:
-			filename = *Message.DocumentMessage.FileName
+		case doc.Title != nil:
+			filename = *doc.Title
+		case doc.FileName != nil:
+			filename = *doc.FileName
 		}
-		filedata = mediadecrypt.GetBase64Filedata(Message.DocumentMessage.Url, Message.DocumentMessage.MediaKey)
-	} else if Message.ImageMessage != nil {
-		filename = strings.ReplaceAll(*Message.ImageMessage.Mimetype, "/", ".")
-		filedata = mediadecrypt.GetBase64Filedata(Message.ImageMessage.Url, Message.ImageMessage.MediaKey)
+		filedata = mediadecrypt.GetBase64Filedata(doc.Url, doc.GetMediaKey())
+	} else if img := Message.GetImageMessage(); img != nil {
+		filename = strings.ReplaceAll(*img.Mimetype, "/", ".")
+		filedata = mediadecrypt.GetBase64Filedata(img.Url, img.GetMediaKey())
+
+	} else if docCap := Message.GetDocumentWithCaptionMessage(); docCap != nil {
+		if docCap.GetMessage() == nil {
+			return
+		}
+		switch {
+		case docCap.GetMessage().GetDocumentMessage().Title != nil:
+			filename = docCap.GetMessage().GetDocumentMessage().GetTitle()
+		case docCap.GetMessage().GetDocumentMessage().FileName != nil:
+			filename = docCap.GetMessage().GetDocumentMessage().GetFileName()
+		}
+		filedata = mediadecrypt.GetBase64Filedata(docCap.Message.DocumentMessage.Url, docCap.Message.DocumentMessage.GetMediaKey())
 	}
 	return
 
