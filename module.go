@@ -32,7 +32,7 @@ func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessa
 	if im.From_link {
 		im.From_link_delay = helper.GetFromLinkDelay(WAIface.Message)
 	}
-	im.Filename, im.Filedata = helper.GetFile(WAIface.Message)
+	im.Filename, im.Filedata = helper.GetFile(WAIface.Waclient, WAIface.Message)
 	im.Longitude, im.Latitude, im.LiveLoc = helper.GetLongLat(WAIface.Message)
 	if WAIface.Info.Chat.Server == "g.us" {
 		groupInfo, err := WAIface.Waclient.GetGroupInfo(WAIface.Info.Chat)
