@@ -104,7 +104,7 @@ func GetFile(client *whatsmeow.Client, Message *waProto.Message) (filename, file
 		filedata = base64.StdEncoding.EncodeToString(payload)
 	} else if img := Message.GetImageMessage(); img != nil {
 		filename = strings.ReplaceAll(*img.Mimetype, "/", ".")
-		filedata = mediadecrypt.GetBase64Filedata(img.Url, img.GetMediaKey())
+		filedata = mediadecrypt.GetBase64Filedata(img.URL, img.GetMediaKey())
 		payload, err := client.Download(img)
 		if err != nil {
 			return
